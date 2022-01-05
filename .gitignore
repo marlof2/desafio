@@ -1,0 +1,9 @@
+# Editor directories and files
+.docker/mysql_db
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
