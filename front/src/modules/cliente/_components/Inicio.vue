@@ -5,9 +5,8 @@
       lg="12"
       md="12"
     >
-      <h1 class="spacing">Consultar Setor</h1>
+      <h1 class="spacing">Consultar Cliente</h1>
     </v-col>
-
 
     <v-col
       cols="12"
@@ -79,7 +78,7 @@
 <script>
 import {mdiPlus, mdiMagnify} from '@mdi/js';
 import {mapActions, mapGetters} from 'vuex'
-import storeSetor from "@/modules/setor/_store"
+import storeCliente from "@/modules/cliente/_store"
 import Acao from "../../../layouts/AcaoTable"
 
 export default {
@@ -111,10 +110,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      getAllSetor: '$_setor/getAllSetor',
+      getAllCliente: '$_cliente/getAllCliente',
     }),
     async reloadSetor() {
-      await this.getAllSetor()
+      await this.getAllCliente()
     },
     getColor(ativo) {
       if (ativo == 1) {
@@ -124,21 +123,21 @@ export default {
       }
     },
     adicionar() {
-      return this.$router.push({name: 'setor.adicionar'})
+      return this.$router.push({name: 'cliente.adicionar'})
     }
   },
   computed: {
     ...mapGetters({
-      listAllSetor: '$_setor/listAllSetor',
+      listAllCliente: '$_cliente/listAllCliente',
     }),
   },
   beforeCreate() {
-    const STORE_SETOR = '$_setor';
-    if (!(STORE_SETOR in this.$store._modules.root._children))
-      this.$store.registerModule(STORE_SETOR, storeSetor)
+    const STORE_CLIENTE = '$_cliente';
+    if (!(STORE_CLIENTE in this.$store._modules.root._children))
+      this.$store.registerModule(STORE_CLIENTE, storeCliente)
   },
   async mounted() {
-    await this.getAllSetor()
+    await this.getAllCliente()
     // console.log(this.getIdsParaActions())
   },
   watch: {

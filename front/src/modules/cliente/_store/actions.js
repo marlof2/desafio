@@ -9,14 +9,14 @@ const update = async (context, object) => {
   return await api.update(object);
 }
 
-const getAllSetor = async (context) => {
-  const result =  await api.getAllSetor();
-  context.commit("STORE_ALL_SETOR", result)
+const getAllCliente = async (context) => {
+  const result =  await api.getAllCliente();
+  context.commit("STORE_ALL_CLIENTE", result)
 }
 
-const getSetorById = async (context, id) => {
-  const result =  await api.getSetorById(id);
-  context.commit("STORE_SETOR_BY_ID", result)
+const getClienteById = async (context, id) => {
+  const result =  await api.getClienteById(id);
+  context.commit("STORE_CLIENTE_BY_ID", result)
 }
 
 const excluir = async (context, id) => {
@@ -26,7 +26,7 @@ const excluir = async (context, id) => {
 export default {
   save,
   update,
-  getAllSetor,
-  getSetorById,
+  getAllCliente,
+  getClienteById,
   excluir
 }

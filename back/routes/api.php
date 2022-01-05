@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\AcaoController;
-use App\Http\Controllers\SetorController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\FuncionalidadeController;
 
 /*
@@ -40,12 +40,12 @@ Route::group(['middleware' => 'jwt'], function () {
     Route::get('/acao', [AcaoController::class, 'getAcoes'])->name('getAcoes');
     Route::get('/funcionalidade', [FuncionalidadeController::class, 'getFuncionalidade'])->name('getFuncionalidade');
 
-    Route::prefix('/setor')->group(function () {
-        Route::get('/index', [SetorController::class, 'index'])->name('setor.index');
-        Route::get('/getSetor/{id}', [SetorController::class, 'getSetor'])->name('getSetor');
-        Route::post('/store', [SetorController::class, 'store'])->name('setor.store');
-        Route::put('/update/{id}', [SetorController::class, 'update'])->name('setor.update');
-        Route::delete('/delete/{id}', [SetorController::class, 'destroy'])->name('setor.destroy');
+    Route::prefix('/cliente')->group(function () {
+        Route::get('/index', [ClienteController::class, 'index'])->name('cliente.index');
+        Route::get('/clientById/{id}', [ClienteController::class, 'ClienteById'])->name('getCliente');
+        Route::post('/store', [ClienteController::class, 'store'])->name('cliente.store');
+        Route::put('/update/{id}', [ClienteController::class, 'update'])->name('cliente.update');
+        Route::delete('/delete/{id}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
     });
 
     Route::prefix('users')->group(function () {

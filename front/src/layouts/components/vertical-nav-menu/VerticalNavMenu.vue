@@ -48,60 +48,60 @@
         :to="{ name: 'inicio' }"
         :icon="icons.mdiHomeOutline"
       ></nav-menu-link>
+<!--      <nav-menu-link-->
+<!--        title="Account Settings"-->
+<!--        :to="{ name: 'pages-account-settings'}"-->
+<!--        :icon="icons.mdiAccountCogOutline"-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-section-title title="ADMINISTRATIVO"></nav-menu-section-title>-->
+<!--      <nav-menu-group-->
+<!--        title="ADM"-->
+<!--        :icon="icons.mdiFileOutline"-->
+<!--      >-->
+<!--        <nav-menu-link-->
+<!--          title="Médicos"-->
+<!--          :to="{ name: 'medicos' }"-->
+<!--        ></nav-menu-link>-->
+<!--        <nav-menu-link-->
+<!--          title="Visitação"-->
+<!--          :to="{ name: 'visitacao' }"-->
+<!--        ></nav-menu-link>-->
+<!--      </nav-menu-group>-->
       <nav-menu-link
-        title="Account Settings"
-        :to="{ name: 'pages-account-settings'}"
-        :icon="icons.mdiAccountCogOutline"
+        title="Cliente"
+        :to="{ name: 'cliente.index' }"
       ></nav-menu-link>
-      <nav-menu-section-title title="ADMINISTRATIVO"></nav-menu-section-title>
-      <nav-menu-group
-        title="ADM"
-        :icon="icons.mdiFileOutline"
-      >
-        <nav-menu-link
-          title="Médicos"
-          :to="{ name: 'medicos' }"
-        ></nav-menu-link>
-        <nav-menu-link
-          title="Visitação"
-          :to="{ name: 'visitacao' }"
-        ></nav-menu-link>
-      </nav-menu-group>
-      <nav-menu-link
-        title="Setor"
-        :to="{ name: 'setor.index' }"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Usuario"
-        :to="{ name: 'usuario.index' }"
-        :icon="icons.mdiAccountMultiple "
-      ></nav-menu-link>
-      <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>
-      <nav-menu-link
-        title="Typography"
-        :to="{ name: 'typography' }"
-        :icon="icons.mdiAlphaTBoxOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Icons"
-        :to="{ name: 'icons' }"
-        :icon="icons.mdiEyeOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Cards"
-        :to="{ name: 'cards' }"
-        :icon="icons.mdiCreditCardOutline"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Tables"
-        :to="{ name: 'simple-table' }"
-        :icon="icons.mdiTable"
-      ></nav-menu-link>
-      <nav-menu-link
-        title="Form Layouts"
-        :to="{ name: 'form-layouts' }"
-        :icon="icons.mdiFormSelect"
-      ></nav-menu-link>
+<!--      <nav-menu-link-->
+<!--        title="Usuario"-->
+<!--        :to="{ name: 'usuario.index' }"-->
+<!--        :icon="icons.mdiAccountMultiple "-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-section-title title="USER INTERFACE"></nav-menu-section-title>-->
+<!--      <nav-menu-link-->
+<!--        title="Typography"-->
+<!--        :to="{ name: 'typography' }"-->
+<!--        :icon="icons.mdiAlphaTBoxOutline"-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-link-->
+<!--        title="Icons"-->
+<!--        :to="{ name: 'icons' }"-->
+<!--        :icon="icons.mdiEyeOutline"-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-link-->
+<!--        title="Cards"-->
+<!--        :to="{ name: 'cards' }"-->
+<!--        :icon="icons.mdiCreditCardOutline"-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-link-->
+<!--        title="Tables"-->
+<!--        :to="{ name: 'simple-table' }"-->
+<!--        :icon="icons.mdiTable"-->
+<!--      ></nav-menu-link>-->
+<!--      <nav-menu-link-->
+<!--        title="Form Layouts"-->
+<!--        :to="{ name: 'form-layouts' }"-->
+<!--        :icon="icons.mdiFormSelect"-->
+<!--      ></nav-menu-link>-->
     </v-list>
     <a
       href="https://themeselection.com/products/materio-vuetify-vuejs-admin-template"

@@ -4,10 +4,10 @@
     lg="12"
     md="12"
   >
-    <h1 v-if="!this.$route.params.id" class="spacing">Adicionar Setor</h1>
-    <h1 v-else-if="this.$route.params.id && this.$route.name == 'setor.editar' " class="spacing">
-      Alterar Setor</h1>
-    <h1 v-else class="spacing">Visualizar Setor</h1>
+    <h1 v-if="!this.$route.params.id" class="spacing">Adicionar Cliente</h1>
+    <h1 v-else-if="this.$route.params.id && this.$route.name == 'cliente.editar' " class="spacing">
+      Alterar Cliente</h1>
+    <h1 v-else class="spacing">Visualizar Cliente</h1>
     <v-card elevation="5">
       <v-card-text class="mt-3">
         <ValidationObserver v-slot="{ handleSubmit  }">
@@ -94,7 +94,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import {ValidationProvider, extend, ValidationObserver} from 'vee-validate';
 import {required} from 'vee-validate/dist/rules';
-import storeSetor from "@/modules/setor/_store";
+import storeCliente from "@/modules/cliente/_store"
 
 extend('required', {
   ...required,
@@ -118,12 +118,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      save: '$_setor/save',
-      update: '$_setor/update',
-      getSetorById: '$_setor/getSetorById',
+      save: '$_cliente/save',
+      update: '$_cliente/update',
+      getClienteById: '$_cliente/getClienteById',
     }),
     disabledVisualizar() {
-      return this.$route.name === 'setor.visualizar'
+      return this.$route.name === 'cliente.visualizar'
     },
     async onSubmit() {
       try {
@@ -150,7 +150,7 @@ export default {
               icon: 'success',
               title: 'Alterado com Sucesso!'
             })
-            this.$router.push({name: 'setor.index'})
+            this.$router.push({name: 'cliente.index'})
           }
         } else {
           const response = await this.save(this.form)
@@ -171,7 +171,7 @@ export default {
               icon: 'success',
               title: 'Adicionado com Sucesso!'
             })
-            this.$router.push({name: 'setor.index'})
+            this.$router.push({name: 'cliente.index'})
           }
         }
       } catch (erro) {
@@ -183,7 +183,7 @@ export default {
       }
     },
     backToIndex() {
-      return this.$router.push({name: 'setor.index'})
+      return this.$router.push({name: 'cliente.index'})
     }
   },
   async mounted() {
@@ -193,16 +193,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      listSetorById: '$_setor/listSetorById',
+      listClienteById: '$_cliente/listClienteById',
     }),
     messages() {
       return this.form.ativo ? ['Ativo'] : undefined
     },
   },
   beforeCreate() {
-    const STORE_SETOR = '$_setor';
-    if (!(STORE_SETOR in this.$store._modules.root._children))
-      this.$store.registerModule(STORE_SETOR, storeSetor)
+    const STORE_CLIENTE = '$_cliente';
+    if (!(STORE_CLIENTE in this.$store._modules.root._children))
+      this.$store.registerModule(STORE_CLIENTE, storeCliente)
   },
   watch: {
     listSetorById: function (setor) {

@@ -3,8 +3,8 @@ import actions from './actions';
 import getters from './getters';
 
 const state = {
-  setores: [],
-  setor: [],
+  clientes: [],
+  cliente: [],
 };
 
 export default {

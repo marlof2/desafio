@@ -1,5 +1,5 @@
 import Api from "@/api";
-const route = "setor";
+const route = "cliente";
 // import Jwt from '../../../api/jwt'
 
 const save = async body => {
@@ -11,13 +11,13 @@ const update = async body => {
   return result.data;
 };
 
-const getAllSetor = async () => {
+const getAllCliente = async () => {
   const result = await Api.get(`/${route}/index`);
   return result.data;
 };
 
-const getSetorById = async id => {
-  const result = await Api.get(`/${route}/getSetor/${id}`);
+const getClienteById = async id => {
+  const result = await Api.get(`/${route}/ClienteById/${id}`);
   return result.data;
 };
 
@@ -30,7 +30,7 @@ const excluir = async id => {
 export default {
   save,
   update,
-  getAllSetor,
-  getSetorById,
+  getAllCliente,
+  getClienteById,
   excluir,
 };

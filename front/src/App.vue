@@ -9,31 +9,12 @@ import { computed } from '@vue/composition-api'
 import { useRouter } from '@/utils'
 import LayoutBlank from '@/layouts/Blank.vue'
 import LayoutContent from '@/layouts/Content.vue'
-// import {mapActions, mapGetters} from "vuex"
-// import storeAuth from "@/modules/auth/_store"
 
 export default {
   components: {
     LayoutBlank,
     LayoutContent,
   },
-  // async mounted() {
-  //   await this.me()
-  // },
-  // methods: {
-  //   ...mapActions({
-  //     me: '$_auth/me',
-  //   }),
-  // },
-  // computed: {
-  //   ...mapGetters({
-  //   })
-  // },
-  // beforeCreate() {
-  //   const STORE_AUTH = '$_auth';
-  //   if (!(STORE_AUTH in this.$store._modules.root._children))
-  //     this.$store.registerModule(STORE_AUTH, storeAuth)
-  // },
   setup() {
     const { route } = useRouter()
 

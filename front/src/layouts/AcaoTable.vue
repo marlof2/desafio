@@ -63,8 +63,7 @@ import {
   mdiEye,
 } from '@mdi/js'
 import {mapActions, mapGetters} from "vuex"
-import storeSetor from "@/modules/setor/_store";
-// import storeAuth from "@/modules/auth/_store"
+import storeCliente from "@/modules/cliente/_store";
 
 export default {
   props: ['idUser'],
@@ -84,8 +83,8 @@ export default {
   methods: {
     ...mapActions({
       logout: '$_auth/logout',
-      delete: '$_setor/excluir',
-      getAllSetor: '$_setor/getAllSetor',
+      delete: '$_cliente/excluir',
+      getAllSetor: '$_cliente/getAllSetor',
     }),
     editar(id) {
       return this.$router.push({path: this.$router.currentRoute.path + `/editar/${id}`})
@@ -128,15 +127,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: '$_auth/me',
-      listAllSetor: '$_setor/listAllSetor',
+      listAllSetor: '$_cliente/listAllSetor',
     })
   },
   beforeCreate() {
     const STORE_AUTH = '$_auth';
     if (!(STORE_AUTH in this.$store._modules.root._children))
       this.$store.registerModule(STORE_AUTH, storeAuth)
-    const STORE_SETOR = '$_setor';
+    const STORE_SETOR = '$_cliente';
     if (!(STORE_SETOR in this.$store._modules.root._children))
       this.$store.registerModule(STORE_SETOR, storeSetor)
   }
