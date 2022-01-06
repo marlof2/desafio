@@ -8,12 +8,16 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+
+    /**
+     * Método que retorna todos os clientes
+     * @return array
+     * @author Marlo Marques
+     */
     public function index()
     {
-
         try {
-            $cliente = Cliente::all();
-
+            $cliente = Cliente::paginate(config('app.pageLimit'));
             return response()->json([
                 'cliente' => $cliente
             ]);
@@ -26,32 +30,39 @@ class ClienteController extends Controller
         }
     }
 
-    public function ClienteById($id)
+    /**
+     * Método que retorna apenas um cliente
+     * @param $id int id do cliente para receber como parametro na consulta
+     * @param Cliente $cliente model de cliente
+     * @return array
+     * @author Marlo Marques
+     */
+    public function clienteById($id, Cliente $cliente)
     {
         try {
-
-            $cliente = Cliente::where('id', $id)->get();
-            return response()->json($cliente);
-
+            return response()->json(['data' => $cliente->where('id', $id)->get()], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => $e->getMessage(),
                 'error_linha' => $e->getLine(),
             ], 422);
         }
-
-
     }
 
+    /**
+     * Método que faz a inserção de clientes
+     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param Cliente $cliente model de cliente
+     * @return array
+     * @author Marlo Marques
+     */
     public function store(StoreClienteRequest $request, Cliente $cliente)
     {
         try {
-
-            $cliente->create($request->all());
-
             return response()->json([
-                'status' => '200'
-            ]);
+                'data' => $cliente->create($request->all()),
+                'isSuccess' => 'true'
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => $e->getMessage(),
@@ -60,15 +71,20 @@ class ClienteController extends Controller
         }
     }
 
+    /**
+     * Método que faz a alteração de cliente
+     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param Cliente $cliente model de cliente
+     * @return array
+     * @author Marlo Marques
+     */
     public function update(StoreClienteRequest $request, Cliente $cliente)
     {
         try {
-
-            $cliente->where('id', $request->id)->update($request->except('id'));
-
             return response()->json([
-                'status' => '200'
-            ]);
+                'data' => $cliente->where('id', $request->id)->update($request->except('id')),
+                'isSuccess' => 'true'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => $e->getMessage(),
@@ -77,16 +93,20 @@ class ClienteController extends Controller
         }
     }
 
+    /**
+     * Método que deleta o cliente
+     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param Cliente $cliente model de cliente
+     * @return array
+     * @author Marlo Marques
+     */
     public function destroy($id, Cliente $cliente)
     {
-
         try {
-
-            $cliente->where('id', $id)->delete();
-
             return response()->json([
-                'status' => '200'
-            ]);
+                'data' => $cliente->where('id', $id)->delete(),
+                'isSuccess' => 'true'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => $e->getMessage(),

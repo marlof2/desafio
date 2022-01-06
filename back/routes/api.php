@@ -31,7 +31,7 @@ Route::get('/', function () {
 });
 Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 
-Route::group(['middleware' => 'jwt'], function () {
+//Route::group(['middleware' => 'jwt'], function () {
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::post('/auth/me', [AuthController::class, 'me'])->name('auth.me');
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'jwt'], function () {
 
     Route::prefix('/cliente')->group(function () {
         Route::get('/index', [ClienteController::class, 'index'])->name('cliente.index');
-        Route::get('/clientById/{id}', [ClienteController::class, 'ClienteById'])->name('getCliente');
+        Route::get('/clienteById/{id}', [ClienteController::class, 'clienteById'])->name('getCliente');
         Route::post('/store', [ClienteController::class, 'store'])->name('cliente.store');
         Route::put('/update/{id}', [ClienteController::class, 'update'])->name('cliente.update');
         Route::delete('/delete/{id}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
@@ -55,4 +55,4 @@ Route::group(['middleware' => 'jwt'], function () {
         Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
     });
 
-});
+//});

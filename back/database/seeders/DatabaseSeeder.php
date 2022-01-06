@@ -23,15 +23,8 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            AcaoSeed::class,
-            FuncionalidadeSeed::class,
-//            CargoSeed::class,
-            PerfilSeed::class,
-            SemanaSeed::class,
-            SetorSeed::class,
-            SetorSemanaSeed::class,
             UserSeed::class,
-
+            ClienteSeeder::class,
         ]);
     }
 }

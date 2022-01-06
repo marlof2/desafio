@@ -27,9 +27,11 @@ class StoreClienteRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo_setor' => 'required',
             'nome' => 'required',
-            'ativo' => 'required',
+            'cpf' => 'required',
+            'email' => 'required',
+            'telefone' => 'required',
+            'endereco' => 'required',
         ];
     }
 

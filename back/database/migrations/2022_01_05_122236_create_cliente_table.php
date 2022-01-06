@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAcaoTable extends Migration
+class CreateClienteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateAcaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('acao', function (Blueprint $table) {
+        Schema::create('cliente', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nome');
-            $table->string('descricao');
+            $table->string('cpf');
+            $table->string('email')->unique();
+            $table->string('telefone');
+            $table->string('endereco');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateAcaoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acao');
+        Schema::dropIfExists('cliente');
     }
 }

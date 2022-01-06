@@ -15,8 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_setor');
-            $table->unsignedBigInteger('id_perfil');
             $table->string('cpf');
             $table->string('login');
             $table->string('name');
@@ -25,8 +23,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamps();
 
-            $table->foreign('id_setor')->references('id')->on('setor')->onDelete('cascade');
-            $table->foreign('id_perfil')->references('id')->on('perfil')->onDelete('cascade');
         });
     }
 
