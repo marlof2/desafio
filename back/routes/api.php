@@ -20,10 +20,6 @@ use App\Http\Controllers\FuncionalidadeController;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 Route::get('/', function () {
     return response()->json([
         'Api' => 'Ok'
@@ -36,23 +32,12 @@ Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login')
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::post('/auth/me', [AuthController::class, 'me'])->name('auth.me');
 
-    Route::get('/perfil', [PerfilController::class, 'getPerfil'])->name('getPerfil');
-    Route::get('/acao', [AcaoController::class, 'getAcoes'])->name('getAcoes');
-    Route::get('/funcionalidade', [FuncionalidadeController::class, 'getFuncionalidade'])->name('getFuncionalidade');
-
     Route::prefix('/cliente')->group(function () {
         Route::get('/index', [ClienteController::class, 'index'])->name('cliente.index');
         Route::get('/clienteById/{id}', [ClienteController::class, 'clienteById'])->name('getCliente');
         Route::post('/store', [ClienteController::class, 'store'])->name('cliente.store');
         Route::put('/update/{id}', [ClienteController::class, 'update'])->name('cliente.update');
         Route::delete('/delete/{id}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
-    });
-
-    Route::prefix('users')->group(function () {
-        Route::get('/listAllUser', [UserController::class, 'listAllUser'])->name('users.index');
-        Route::post('/adicionar', [UserController::class, 'adicionar'])->name('users.adicioanar');
-        Route::get('/getUser/{id}', [UserController::class, 'getUser'])->name('users.getUser');
-        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
     });
 
 //});
