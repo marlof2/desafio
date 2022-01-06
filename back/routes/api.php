@@ -34,7 +34,7 @@ Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login')
 
     Route::prefix('/cliente')->group(function () {
         Route::get('/index', [ClienteController::class, 'index'])->name('cliente.index');
-        Route::get('/clienteById/{id}', [ClienteController::class, 'clienteById'])->name('getCliente');
+        Route::get('/show/{id}', [ClienteController::class, 'show'])->name('getCliente');
         Route::post('/store', [ClienteController::class, 'store'])->name('cliente.store');
         Route::put('/update/{id}', [ClienteController::class, 'update'])->name('cliente.update');
         Route::delete('/delete/{id}', [ClienteController::class, 'destroy'])->name('cliente.destroy');

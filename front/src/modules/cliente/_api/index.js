@@ -17,7 +17,7 @@ const getAllCliente = async () => {
 };
 
 const getClienteById = async id => {
-  const result = await Api.get(`/${route}/clienteById/${id}`);
+  const result = await Api.get(`/${route}/show/${id}`);
   return result.data;
 };
 

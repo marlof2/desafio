@@ -37,7 +37,7 @@ class ClienteController extends Controller
      * @return array
      * @author Marlo Marques
      */
-    public function clienteById($id, Cliente $cliente)
+    public function show($id, Cliente $cliente)
     {
         try {
             return response()->json(['data' => $cliente->where('id', $id)->get()], 200);
