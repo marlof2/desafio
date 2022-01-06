@@ -33,7 +33,7 @@
               <v-col md="7" cols="10">
                 <v-text-field
                   v-model="Pesquisar"
-                  label="Pesquisar"
+                  label="Filtro universal"
                   single-line
                   hide-details
                   dense
@@ -52,20 +52,12 @@
           </v-card-title>
           <v-data-table
             :headers="headers"
-            :items="listAllSetor.setor"
+            :items="listAllCliente.data"
             class="elevation-1"
             :search="Pesquisar"
           >
-            <template v-slot:item.ativo="{ item }">
-              <v-chip
-                :color="getColor(item.ativo)"
-                dark
-              >
-                {{ item.ativo ? 'Sim' : 'Não' }}
-              </v-chip>
-            </template>
             <template v-slot:item.acao="{item}">
-              <Acao :idUser="item.id" @reload-setor="reloadSetor()"></Acao>
+              <Acao :idUser="item.id" @reload-cliente="reloadCliente()"></Acao>
             </template>
           </v-data-table>
         </v-card-text>
@@ -102,9 +94,11 @@ export default {
           align: 'start',
           value: 'acao',
         },
-        {text: 'Cod Setor', value: 'codigo_setor'},
         {text: 'Nome', value: 'nome'},
-        {text: 'Ativo', value: 'ativo'},
+        {text: 'CPF', value: 'cpf'},
+        {text: 'Email', value: 'email'},
+        {text: 'Telefone', value: 'telefone'},
+        {text: 'Endereço', value: 'endereco'},
       ],
     }
   },
@@ -112,15 +106,8 @@ export default {
     ...mapActions({
       getAllCliente: '$_cliente/getAllCliente',
     }),
-    async reloadSetor() {
+    async reloadCliente() {
       await this.getAllCliente()
-    },
-    getColor(ativo) {
-      if (ativo == 1) {
-        return 'success'
-      } else {
-        return 'error'
-      }
     },
     adicionar() {
       return this.$router.push({name: 'cliente.adicionar'})
@@ -138,10 +125,9 @@ export default {
   },
   async mounted() {
     await this.getAllCliente()
-    // console.log(this.getIdsParaActions())
+    console.log(this.listAllCliente)
   },
-  watch: {
-  },
+  watch: {},
 }
 
 </script>

@@ -105,13 +105,13 @@ export default {
         if (result.isConfirmed) {
           try {
             response = await this.delete(id)
-            if (response.status == 200) {
+            if (response.isSuccess) {
               this.$swal.fire(
                 'Excluido!',
                 'Usuario excluido com sucesso!',
                 'success'
               )
-              this.$emit("reload-setor")
+              this.$emit("reload-cliente")
             }
           } catch (erro) {
             this.$swal.fire({

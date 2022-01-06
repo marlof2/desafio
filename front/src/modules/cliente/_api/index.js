@@ -13,11 +13,11 @@ const update = async body => {
 
 const getAllCliente = async () => {
   const result = await Api.get(`/${route}/index`);
-  return result.data;
+  return result.data.cliente;
 };
 
 const getClienteById = async id => {
-  const result = await Api.get(`/${route}/ClienteById/${id}`);
+  const result = await Api.get(`/${route}/clienteById/${id}`);
   return result.data;
 };
 

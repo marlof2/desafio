@@ -19,9 +19,9 @@
               <validation-provider rules="required" v-slot="{ errors }">
                 <v-text-field
                   :disabled="disabledVisualizar()"
-                  v-model="form.codigo_setor"
+                  v-model="form.nome"
                   maxlength="100"
-                  label="Código do setor"
+                  label="Nome"
                   outlined
                   dense
                   hide-details
@@ -38,8 +38,27 @@
               <validation-provider rules="required" v-slot="{ errors }">
                 <v-text-field
                   :disabled="disabledVisualizar()"
-                  v-model="form.nome"
-                  label="Nome"
+                  v-model="form.cpf"
+                  label="CPF"
+                  outlined
+                  dense
+                  hide-details
+                  v-mask="'###.###.###-##'"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <span class="color-validate">{{ errors[0] }}</span>
+              </validation-provider>
+            </v-col>
+
+            <v-col
+              cols="12"
+              md="6"
+            >
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  :disabled="disabledVisualizar()"
+                  v-model="form.email"
+                  label="Email"
                   outlined
                   dense
                   hide-details
@@ -52,19 +71,38 @@
             <v-col
               cols="12"
               md="6"
-              class="mt-5"
             >
-              <!--              <validation-provider rules="required" v-slot="{ errors }">-->
-              <p class="title">Ativar/Inativar Setor</p>
-              <v-switch
-                hint="Inativo"
-                persistent-hint
-                v-model="form.ativo"
-                :messages="messages"
-                :disabled="disabledVisualizar()"
-              ></v-switch>
-              <!--                <span class="color-validate">{{ errors[0] }}</span>-->
-              <!--              </validation-provider>-->
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  :disabled="disabledVisualizar()"
+                  v-model="form.telefone"
+                  label="Telefone"
+                  outlined
+                  dense
+                  hide-details
+                  v-mask="'(##) ###-######'"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <span class="color-validate">{{ errors[0] }}</span>
+              </validation-provider>
+            </v-col>
+
+            <v-col
+              cols="12"
+              md="6"
+            >
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  :disabled="disabledVisualizar()"
+                  v-model="form.endereco"
+                  label="Endereço"
+                  outlined
+                  dense
+                  hide-details
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <span class="color-validate">{{ errors[0] }}</span>
+              </validation-provider>
             </v-col>
 
             <v-col cols="12">
@@ -105,12 +143,13 @@ export default {
   data() {
     return {
       form: {
-        codigo_setor: null,
-        nome: null,
-        ativo: 0,
         id: null,
+        nome: null,
+        cpf: null,
+        email: null,
+        telefone: null,
+        endereco: null,
       },
-      showMessages: false,
       rules: {
         required: (value) => !!value
       },
@@ -132,8 +171,7 @@ export default {
 
           this.form.id = this.$route.params.id
           const response = await this.update(this.form)
-
-          if (response.status == 200) {
+          if (response.isSuccess) {
             const Toast = this.$swal.mixin({
               toast: true,
               position: 'top',
@@ -154,7 +192,7 @@ export default {
           }
         } else {
           const response = await this.save(this.form)
-          if (response.status == 200) {
+          if (response.isSuccess) {
             const Toast = this.$swal.mixin({
               toast: true,
               position: 'top',
@@ -188,16 +226,13 @@ export default {
   },
   async mounted() {
     if (this.$route.params.id != undefined) {
-      await this.getSetorById(this.$route.params.id)
+      await this.getClienteById(this.$route.params.id)
     }
   },
   computed: {
     ...mapGetters({
       listClienteById: '$_cliente/listClienteById',
     }),
-    messages() {
-      return this.form.ativo ? ['Ativo'] : undefined
-    },
   },
   beforeCreate() {
     const STORE_CLIENTE = '$_cliente';
@@ -205,11 +240,13 @@ export default {
       this.$store.registerModule(STORE_CLIENTE, storeCliente)
   },
   watch: {
-    listSetorById: function (setor) {
+    listClienteById: function (cliente) {
       if (this.$route.params.id != undefined) {
-        this.form.nome = setor[0].nome
-        this.form.codigo_setor = setor[0].codigo_setor
-        this.form.ativo = setor[0].ativo
+        this.form.nome = cliente.data[0].nome
+        this.form.cpf = cliente.data[0].cpf
+        this.form.email = cliente.data[0].email
+        this.form.telefone = cliente.data[0].telefone
+        this.form.endereco = cliente.data[0].endereco
       }
     }
   },
