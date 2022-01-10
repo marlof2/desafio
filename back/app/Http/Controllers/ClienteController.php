@@ -23,7 +23,6 @@ class ClienteController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status' => $e->getStatusCode(),
                 'msg' => $e->getLine(),
                 'erro' => $e->getMessage(),
             ], 422);
