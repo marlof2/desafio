@@ -12,9 +12,27 @@ class LogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        try {
+            $per_page = $request->per_page;
+            $search = $request->search;
+            $query = Log::query();
+            $query->select('log_users.*');
+            if ($search) {
+                $query->where('log_users.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('log_users.login', 'LIKE', '%' . $search . '%');
+                $users = $query->paginate($per_page);
+            } else {
+                $users = $query->paginate($per_page);
+            }
+            return response()->json([$users], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
+            ], 422);
+        }
     }
 
     /**

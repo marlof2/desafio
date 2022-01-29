@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActionController;
-use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\FuncionalidadeController;
 
 /*
@@ -28,23 +28,24 @@ Route::get('/', function () {
 Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
 
-//Route::group(['middleware' => 'jwt'], function () {
+Route::group(['middleware' => 'jwt'], function () {
 
-Route::prefix('auth')->group(function () {
-    Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::post('/me', [AuthController::class, 'me'])->name('auth.me');
+    Route::prefix('auth')->group(function () {
+        Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::post('/me', [AuthController::class, 'me'])->name('auth.me');
+    });
+
+    Route::apiResource('actions', ActionController::class)->only('index');
+    Route::apiResource('profiles', ProfileController::class)->only('index');
+    Route::apiResource('logs', LogController::class)->only('index');
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::post('/store', [UserController::class, 'store'])->name('users.store');
+        Route::get('/show/{id}', [UserController::class, 'show'])->name('users.show');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('users.delete');
+    });
+
 });
-
-Route::apiResource('actions', ActionController::class)->only('index');
-Route::apiResource('profiles', ProfileController::class)->only('index');
-
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
-    Route::post('/store', [UserController::class, 'store'])->name('users.store');
-    Route::get('/show/{id}', [UserController::class, 'show'])->name('users.show');
-    Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
-});
-
-//});

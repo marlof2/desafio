@@ -84,7 +84,7 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-            $data = $user->find($id)->update($request->except('id'));
+            $user->find($id)->update($request->except('id'));
 
             $userActions = UserAction::where('id_user', $id)->get();
             foreach ($userActions as $userAction) {
@@ -100,7 +100,7 @@ class UserController extends Controller
             }
             DB::commit();
             return response()->json([
-                'data' => $data,
+                'msg' => 'Alterado com sucesso!',
                 'success' => 'true'
             ], 200);
         } catch (\Exception $e) {
@@ -114,12 +114,20 @@ class UserController extends Controller
 
     public function destroy($id, User $user)
     {
+
         try {
+            DB::beginTransaction();
+            $user->find($id)->delete();
+            $userActions = UserAction::where('id_user', $id)->get();
+            foreach ($userActions as $userAction) {
+                UserAction::where('id_user', $userAction->id_user)->delete();
+            }
+            DB::commit();
             return response()->json([
-                'data' => $user->find($id)->delete(),
                 'success' => 'true'
             ], 200);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'msg' => $e->getMessage(),
                 'error_linha' => $e->getLine(),

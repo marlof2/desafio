@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\Action;
+use App\Models\Log;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\UserAction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,8 +81,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public
-    function me()
+    public function me()
     {
         return response()->json(Auth::user());
     }
@@ -90,8 +91,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public
-    function logout()
+    public function logout()
     {
         Auth::logout();
 
@@ -103,10 +103,20 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public
-    function refresh()
+    public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    public function addLogs()
+    {
+        $user = Auth::user();
+        $arrayLogs = [
+            'login' => $user->login,
+            'name' => $user->name,
+            'data/hora' => Carbon::now()->format('Y-m-d H:i:s')
+        ];
+        Log::create($arrayLogs);
     }
 
     /**
@@ -116,17 +126,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-
-    /**
-     * Get the token array structure.
-     *
-     * @param string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected
-    function respondWithToken($token)
+    protected function respondWithToken($token)
     {
+        $this->addLogs();
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
@@ -135,18 +137,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function update(Request $request)
-    {
-        $user = User::where('id', $request->id)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-                'estado_civil' => $request->estado_civil,
-                'profissao' => $request->profissao,
-            ]);
-
-        return response()->json(['msg' => 'Alterado com Sucesso']);
-    }
 }

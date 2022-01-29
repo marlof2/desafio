@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Log extends Model
 {
     use HasFactory;
+    protected $table = 'log_users';
+    protected $fillable = ['login', 'name', 'data/hora'];
 }

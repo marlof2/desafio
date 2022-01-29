@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
             'password' => $nameRoute == 'users.update' ? '' : 'required',
             'id_profile' => 'required',
             'id_actions' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required',
         ];
     }
 
