@@ -2,7 +2,7 @@ import Api from "@/api";
 const route = "auth";
 // import Jwt from '../../../api/jwt'
 
-const Register = async body => {
+const register = async body => {
   const result = await Api.post(`/${route}/register`, body);
   return result.data;
 };
@@ -22,10 +22,6 @@ const login = async body => {
   return result.data;
 };
 
-const passwordReset = async body => {
-  const result = await Api.post(`v1/${route}/password-reset`, body);
-  return result.data;
-};
 
 const logout = async () => {
   const result = await Api.post(`${route}/logout`);
@@ -34,10 +30,9 @@ const logout = async () => {
 
 
 export default {
-  Register,
+  register,
   me,
   login,
-  passwordReset,
   logout,
   updateUser
 };

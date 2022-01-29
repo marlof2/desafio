@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Models\Action;
+use App\Models\Profile;
 use App\Models\User;
+use App\Models\UserAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -35,44 +40,37 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-
         try {
+            DB::beginTransaction();
+            $user = $request->all();
+            $profileClient = Profile::where('id', 2)->get();
+            $user['id_profile'] = $profileClient[0]['id'];
+            $user['password'] = bcrypt($request->password);
 
-//            $filterEmpty = $this->user->filterEmpty($request->all());
-//            if ($filterEmpty){
-//                return $filterEmpty;
-//                return response()->json([$filterEmpty]);
-//            }
+            $userSaved = User::create($user);
 
-            $save = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-                'cidade' => $request->cidade,
-                'estado' => $request->estado,
-                'estado_civil' => $request->estado_civil,
-                'profissao' => $request->profissao,
-            ];
+            $actionEditAndConsult = Action::where('id', 2)->orWhere('id', 4)->get();
 
-
-            $user = User::create($save);
-
+            foreach ($actionEditAndConsult as $actions) {
+                UserAction::create([
+                    'id_user' => $userSaved->id,
+                    'id_action' => $actions->id,
+                ]);
+            }
+            DB::commit();
             return response()->json([
-                'success' => 'Criado com sucesso!',
-                'user' => $user
+                'success' => true,
+                'msg' => 'Cadastro realizado com sucesso, faça login para iniciar a sua sessão !'
             ], 201);
-
         } catch (\Exception $e) {
-
+            DB::rollBack();
             return response()->json([
-                'error' => $e,
-            ]);
-
+                'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
+            ], 422);
         }
-
-
     }
 
 
@@ -81,7 +79,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public
+    function me()
     {
         return response()->json(Auth::user());
     }
@@ -91,7 +90,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public
+    function logout()
     {
         Auth::logout();
 
@@ -103,7 +103,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public
+    function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -123,7 +124,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected
+    function respondWithToken($token)
     {
         return response()->json([
             'token' => $token,

@@ -63,8 +63,8 @@ import {
   mdiEye,
 } from '@mdi/js'
 import {mapActions, mapGetters} from "vuex"
-import storeCliente from "@/modules/cliente/_store";
-
+import storeAuth from "@/modules/auth/_store"
+import Api from "@/api";
 export default {
   props: ['idUser'],
   data() {
@@ -83,8 +83,6 @@ export default {
   methods: {
     ...mapActions({
       logout: '$_auth/logout',
-      delete: '$_cliente/excluir',
-      getAllSetor: '$_cliente/getAllSetor',
     }),
     editar(id) {
       return this.$router.push({path: this.$router.currentRoute.path + `/editar/${id}`})
@@ -93,6 +91,7 @@ export default {
       return this.$router.push({path: this.$router.currentRoute.path + `/visualizar/${id}`})
     },
     async excluir(id) {
+      const pathRoute = this.$router.currentRoute.path
       this.$swal.fire({
         title: 'Tem Certeza que deseja excluir ?',
         text: "Esta ação não poderá ser desfeita !",
@@ -104,14 +103,14 @@ export default {
       }).then(async (result, response) => {
         if (result.isConfirmed) {
           try {
-            response = await this.delete(id)
-            if (response.isSuccess) {
+            const response = await Api.delete(`http://127.0.0.1:8000/api${pathRoute}/delete`, id);
+            if (response.status == 200) {
               this.$swal.fire(
                 'Excluido!',
                 'Usuario excluido com sucesso!',
                 'success'
               )
-              this.$emit("reload-cliente")
+              this.$emit("reload-delete")
             }
           } catch (erro) {
             this.$swal.fire({
@@ -120,23 +119,19 @@ export default {
               text: erro,
             })
           }
-
         }
       })
     }
   },
   computed: {
     ...mapGetters({
-      listAllSetor: '$_cliente/listAllSetor',
+      user: '$_auth/me',
     })
   },
   beforeCreate() {
     const STORE_AUTH = '$_auth';
     if (!(STORE_AUTH in this.$store._modules.root._children))
       this.$store.registerModule(STORE_AUTH, storeAuth)
-    const STORE_SETOR = '$_cliente';
-    if (!(STORE_SETOR in this.$store._modules.root._children))
-      this.$store.registerModule(STORE_SETOR, storeSetor)
   }
 }
 </script>

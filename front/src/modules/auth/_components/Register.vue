@@ -2,39 +2,11 @@
   <div class="auth-wrapper auth-v1">
     <div class="auth-inner">
       <v-card class="auth-card">
-        <!-- logo -->
-        <!--        <v-card-title class="d-flex align-center justify-center py-7">-->
-        <!--          <router-link-->
-        <!--            to="/"-->
-        <!--            class="d-flex align-center"-->
-        <!--          >-->
-        <!--            <v-img-->
-        <!--              :src="require('@/assets/images/logos/logo2.png')"-->
-        <!--              max-height="50px"-->
-        <!--              max-width="50px"-->
-        <!--              alt="logo"-->
-        <!--              contain-->
-        <!--              class="me-3 "-->
-        <!--            ></v-img>-->
-
-        <!--            <v-img-->
-        <!--              :src="require('@/assets/images/logos/1.png')"-->
-        <!--              max-height="100px"-->
-        <!--              max-width="100px"-->
-        <!--              alt="logo"-->
-        <!--              contain-->
-        <!--              class="me-3 "-->
-        <!--            ></v-img>-->
-        <!--          </router-link>-->
-        <!--        </v-card-title>-->
 
         <!-- title -->
-        <v-card-text class="align-center justify-center ">
+        <v-card-text>
           <p class="text-2xl font-weight-semibold text--primary mb-2">
-            Bem Vindo! 👋🏻
-          </p>
-          <p class="mb-2">
-            FAÇA LOGIN PARA INICIAR SUA SESSÃO!
+            Crie sua conta agora. 🚀
           </p>
         </v-card-text>
 
@@ -44,14 +16,25 @@
             <v-form @submit.prevent="handleSubmit(submit)" class="multi-col-validation">
               <validation-provider rules="required" v-slot="{ errors }">
                 <v-text-field
-                  v-model="form.login"
+                  v-model="form.name"
                   outlined
-                  label="Login"
+                  label="Nome"
                   hide-details
+                  class="mb-3"
                 ></v-text-field>
                 <span class="mb-3 color-validate">{{ errors[0] }}</span>
               </validation-provider>
-              <div class="mb-3"></div>
+
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  v-model="form.login"
+                  outlined
+                  label="login"
+                  hide-details
+                  class="mb-3"
+                ></v-text-field>
+                <span class="mb-3 color-validate">{{ errors[0] }}</span>
+              </validation-provider>
               <validation-provider rules="required" v-slot="{ errors }">
                 <v-text-field
                   v-model="form.password"
@@ -62,42 +45,39 @@
                   :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
                   hide-details
                   @click:append="isPasswordVisible = !isPasswordVisible"
+                  class="mb-3"
                 ></v-text-field>
-                <span class="color-validate">{{ errors[0] }}</span>
+                <span class="mb-3 color-validate">{{ errors[0] }}</span>
+              </validation-provider>
+              <validation-provider rules="required" v-slot="{ errors }">
+                <v-text-field
+                  v-model="form.email"
+                  outlined
+                  label="Email"
+                  hide-details
+                  class="mb-3"
+                ></v-text-field>
+                <span class="mb-3 color-validate">{{ errors[0] }}</span>
               </validation-provider>
 
-              <div class="d-flex align-center justify-space-between flex-wrap">
-                <router-link to="register" class="mt-1">
-                  Registre-se
-                </router-link>
-              </div>
               <v-btn
                 type="submit"
                 block
                 color="primary"
                 class="mt-6"
               >
-                Login
+                Resgistrar
               </v-btn>
             </v-form>
           </ValidationObserver>
         </v-card-text>
       </v-card>
-      <v-overlay :value="overlay">
-        <v-progress-circular
-          indeterminate
-          size="64"
-          color="primary"
-          :size="70"
-          :width="7"
-        ></v-progress-circular>
-      </v-overlay>
     </div>
 
     <!-- background triangle shape  -->
     <img
       class="auth-mask-bg"
-      height="173"
+      height="190"
       :src="require(`@/assets/images/misc/mask-${$vuetify.theme.dark ? 'dark':'light'}.png`)"
     >
 
@@ -123,9 +103,9 @@
 // eslint-disable-next-line object-curly-newline
 import {mdiEyeOutline, mdiEyeOffOutline} from '@mdi/js'
 import {ref} from '@vue/composition-api'
-import {mapActions, mapGetters} from 'vuex'
-import storeAuth from '../../auth/_store'
-import Jwt from "../../../api/jwt";
+import {mapActions} from "vuex";
+import Jwt from "@/api/jwt";
+import storeAuth from "@/modules/auth/_store";
 import {ValidationProvider, extend, ValidationObserver} from 'vee-validate';
 import {required} from 'vee-validate/dist/rules';
 
@@ -136,12 +116,14 @@ extend('required', {
 
 export default {
   components: {ValidationProvider, ValidationObserver},
-  name: "index",
   data() {
     return {
       form: {
-        login: 'marlo',
-        password: 'teste',
+        name: '',
+        login: '',
+        password: '',
+        email: '',
+
       },
       overlay: false,
       isPasswordVisible: false,
@@ -149,51 +131,55 @@ export default {
         mdiEyeOutline,
         mdiEyeOffOutline,
       },
-      rules: {
-        required: (value) => !!value
-      },
     }
   },
   async created() {
   },
   methods: {
     ...mapActions({
-      login: '$_auth/login',
+      register: '$_auth/register',
     }),
     async submit() {
       try {
         this.overlay = true
-        await this.login(this.form)
-        if (this.user.success) {
-          Jwt.saveToken(this.user.token);
-          this.$router.push({name: 'inicio'})
+        const response = await this.register(this.form)
+        if (response.success) {
+          const Toast = this.$swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 8000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', this.$swal.stopTimer)
+              toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'success',
+            title: response.msg
+          })
+          this.$router.push({name: 'login'})
           this.overlay = true
-        } else {
-          this.overlay = false
-          this.$swal.fire('Algo deu errado!', this.user.error, 'error')
         }
       } catch (e) {
         this.$swal.fire('Algo deu errado!', e.message, 'error')
       }
     }
+    ,
+    beforeCreate() {
+      const STORE_AUTH = '$_auth';
+      if (!(STORE_AUTH in this.$store._modules.root._children))
+        this.$store.registerModule(STORE_AUTH, storeAuth)
+    }
   },
-  computed: {
-    ...mapGetters({
-      user: '$_auth/me',
-    }),
-  },
-  beforeCreate() {
-    const STORE_AUTH = '$_auth';
-    if (!(STORE_AUTH in this.$store._modules.root._children))
-      this.$store.registerModule(STORE_AUTH, storeAuth)
-  }
 }
 </script>
 
 <style lang="scss">
+@import '~@/plugins/vuetify/default-preset/preset/pages/auth.scss';
+
 .color-validate {
   color: red !important;
 }
-
-@import '~@/plugins/vuetify/default-preset/preset/pages/auth.scss';
 </style>

@@ -25,6 +25,22 @@ const routes = [
     redirect: '/login',
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/modules/auth/_components/Login.vue'),
+    meta: {
+      layout: 'blank',
+    },
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/modules/auth/_components/Register.vue'),
+    meta: {
+      layout: 'blank',
+    },
+  },
+  {
     path: '/inicio',
     name: 'inicio',
     beforeEnter: guardMyroute,
@@ -34,97 +50,25 @@ const routes = [
     path: '/usuario',
     name: 'usuario.index',
     beforeEnter: guardMyroute,
-    component: () => import('@/modules/usuario/_components/Inicio.vue'),
+    component: () => import('@/modules/user/_components/Inicio.vue'),
   },
   {
     path: '/usuario/editar/:id',
     name: 'usuario.editar',
     beforeEnter: guardMyroute,
-    component: () => import('@/modules/usuario/_components/Form.vue'),
+    component: () => import('@/modules/user/_components/Form.vue'),
   },
   {
     path: '/usuario/visualizar/:id',
     name: 'usuario.visualizar',
     beforeEnter: guardMyroute,
-    component: () => import('@/modules/usuario/_components/Inicio.vue'),
+    component: () => import('@/modules/user/_components/Form.vue'),
   },
   {
     path: '/usuario/adicionar/',
     name: 'usuario.adicionar',
     beforeEnter: guardMyroute,
-    component: () => import('@/modules/usuario/_components/Form.vue'),
-  },
-  {
-    path: '/cliente',
-    name: 'cliente.index',
-    beforeEnter: guardMyroute,
-    component: () => import('@/modules/cliente/_components/Inicio.vue'),
-  },
-  {
-    path: '/cliente/adicionar',
-    name: 'cliente.adicionar',
-    beforeEnter: guardMyroute,
-    component: () => import('@/modules/cliente/_components/Form.vue'),
-  },
-  {
-    path: '/cliente/editar/:id',
-    name: 'cliente.editar',
-    beforeEnter: guardMyroute,
-    component: () => import('@/modules/cliente/_components/Form.vue'),
-  },
-  {
-    path: '/cliente/visualizar/:id',
-    name: 'cliente.visualizar',
-    beforeEnter: guardMyroute,
-    component: () => import('@/modules/cliente/_components/Form.vue'),
-  },
-
-
-  {
-    path: '/typography',
-    name: 'typography',
-    component: () => import('@/views/typography/Typography.vue'),
-  },
-  {
-    path: '/icons',
-    name: 'icons',
-    component: () => import('@/views/icons/Icons.vue'),
-  },
-  {
-    path: '/cards',
-    name: 'cards',
-    component: () => import('@/views/cards/Card.vue'),
-  },
-  {
-    path: '/simple-table',
-    name: 'simple-table',
-    component: () => import('@/views/simple-table/SimpleTable.vue'),
-  },
-  {
-    path: '/form-layouts',
-    name: 'form-layouts',
-    component: () => import('@/views/form-layouts/FormLayouts.vue'),
-  },
-  {
-    path: '/pages/account-settings',
-    name: 'pages-account-settings',
-    component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/modules/auth/_components/Login.vue'),
-    meta: {
-      layout: 'blank',
-    },
-  },
-  {
-    path: '/pages/register',
-    name: 'pages-register',
-    component: () => import('@/views/pages/Register.vue'),
-    meta: {
-      layout: 'blank',
-    },
+    component: () => import('@/modules/user/_components/Form.vue'),
   },
   {
     path: '/error-404',

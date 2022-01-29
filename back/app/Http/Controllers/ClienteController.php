@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreClienteRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 
@@ -50,12 +50,12 @@ class ClienteController extends Controller
 
     /**
      * Método que faz a inserção de clientes
-     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param StoreUserRequest $request request personalisado para validar os dados
      * @param Cliente $cliente model de cliente
      * @return array
      * @author Marlo Marques
      */
-    public function store(StoreClienteRequest $request, Cliente $cliente)
+    public function store(StoreUserRequest $request, Cliente $cliente)
     {
         try {
             return response()->json([
@@ -72,12 +72,12 @@ class ClienteController extends Controller
 
     /**
      * Método que faz a alteração de cliente
-     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param StoreUserRequest $request request personalisado para validar os dados
      * @param Cliente $cliente model de cliente
      * @return array
      * @author Marlo Marques
      */
-    public function update(StoreClienteRequest $request, Cliente $cliente)
+    public function update(StoreUserRequest $request, Cliente $cliente)
     {
         try {
             return response()->json([
@@ -94,7 +94,7 @@ class ClienteController extends Controller
 
     /**
      * Método que deleta o cliente
-     * @param StoreClienteRequest $request request personalisado para validar os dados
+     * @param StoreUserRequest $request request personalisado para validar os dados
      * @param Cliente $cliente model de cliente
      * @return array
      * @author Marlo Marques

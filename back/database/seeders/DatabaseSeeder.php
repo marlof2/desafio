@@ -23,8 +23,9 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            ActionSeed::class,
+            ProfileSeed::class,
             UserSeed::class,
-            ClienteSeeder::class,
         ]);
     }
 }

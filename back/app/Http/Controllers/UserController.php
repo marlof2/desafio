@@ -2,68 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\Acao;
-use App\Models\Funcionalidade;
-use App\Models\Perfil;
-use App\Models\UserFuncionalidadeAcao;
-use App\Models\Setor;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
-use App\Models\UsuarioPerfil;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\UserAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function listAllUser()
+    public function index(Request $request)
     {
         try {
-            $users = User::with('perfil')->with('setor')->get();
-
-            return response()->json([
-                'users' => $users
-            ]);
+            $per_page = $request->per_page;
+            $search = $request->search;
+            $query = User::query();
+            $query->join('profile', 'id_profile', '=', 'profile.id')
+                ->select('users.*', 'profile.name as profile_name');
+            if ($search) {
+                $query->where('profile.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.email', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.login', 'LIKE', '%' . $search . '%');
+                $users = $query->paginate($per_page);
+            } else {
+                $users = $query->paginate($per_page);
+            }
+            return response()->json([$users], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'status' => $e->getStatusCode(),
-                'msg' => $e->getLine(),
-                'erro' => $e->getMessage(),
+                'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
             ], 422);
         }
     }
 
 
-    public function adicionar(UserRequest $request)
+    public function store(StoreUserRequest $request)
     {
-        DB::beginTransaction();
         try {
-            $user = $request->except('id_perfil', 'id_acoes', 'id_funcionalidades', 'acoesDasFuncionalidade');
+            DB::beginTransaction();
+            $user = $request->all();
             $user['password'] = bcrypt($request->password);
-            $acoesDaFuncionalidades = $request->acoesDaFuncionalidade;
 
             $userSaved = User::create($user);
-            foreach ($request->id_perfil as $id_perfil) {
-                UsuarioPerfil::create([
-                    'id_usuario' => $userSaved->id,
-                    'id_perfil' => $id_perfil
-                ]);
 
-                foreach ($acoesDaFuncionalidades as $acoesDaFuncionalidade) {
-                    foreach ($acoesDaFuncionalidade["id_acao"] as $id_acao) {
-                        UserFuncionalidadeAcao::create([
-                            'id_usuario' => $userSaved->id,
-                            'id_perfil' => $id_perfil,
-                            'id_funcionalidade' => $acoesDaFuncionalidade["id_funcionalidade"],
-                            'id_acao' => $id_acao,
-                        ]);
-                    }
-                }
+            foreach ($user['id_actions'] as $id_action) {
+                UserAction::create([
+                    'id_user' => $userSaved->id,
+                    'id_action' => $id_action
+                ]);
             }
             DB::commit();
             return response()->json([
-                'status' => '200',
-            ]);
+                'success' => 'true',
+                'msg' => 'Cadastro realizado com sucesso!'
+            ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -73,18 +66,63 @@ class UserController extends Controller
         }
     }
 
-    public function getUser(Request $request, $id)
+    public function show($id, User $user)
     {
         try {
-            $user = User::find($id)->load('UserperfilFuncionalidadeAcao', 'perfil', 'setor');
-            $user['senha'] = $user->password;
-//            dd($user);
-            return response()->json([
-                'usuario' => $user
-            ]);
+            $data = $user->with('userAction')->find($id);
+
+            return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
+            ], 422);
+        }
+    }
+
+    public function update(StoreUserRequest $request, User $user, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $data = $user->find($id)->update($request->except('id'));
+
+            $userActions = UserAction::where('id_user', $id)->get();
+            foreach ($userActions as $userAction) {
+                UserAction::where('id_user', $userAction->id_user)->delete();
+            }
+
+            $id_actions = $request->id_actions;
+            foreach ($id_actions as $id_action) {
+                UserAction::create([
+                    'id_user' => $id,
+                    'id_action' => $id_action
+                ]);
+            }
+            DB::commit();
+            return response()->json([
+                'data' => $data,
+                'success' => 'true'
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
+            ], 422);
+        }
+    }
+
+    public function destroy($id, User $user)
+    {
+        try {
+            return response()->json([
+                'data' => $user->find($id)->delete(),
+                'success' => 'true'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'msg' => $e->getMessage(),
+                'error_linha' => $e->getLine(),
             ], 422);
         }
     }

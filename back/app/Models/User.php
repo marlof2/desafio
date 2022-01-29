@@ -22,11 +22,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'id_setor',
-        'id_perfil',
-        'cpf',
+        'id_profile',
         'login',
-        'ativo',
 
     ];
 
@@ -74,22 +71,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function perfil()
+    public function userAction()
     {
-        return $this->belongsToMany(Perfil::class, 'usuario_perfil', 'id_usuario', 'id_perfil')
-            ->select('perfil.id', 'perfil.nome');
-
+        return $this->hasMany(UserAction::class, 'id_user', 'id')
+            ->select('user_action.id_user', 'user_action.id_action');
     }
 
-    public function UserperfilFuncionalidadeAcao()
+    public function profile()
     {
-        return $this->hasMany(UserFuncionalidadeAcao::class, 'id_usuario', 'id');
-//            ->select("UserFuncionalidadeAcao.id_funcionalidade", "UserFuncionalidadeAcao.id_acao");
-    }
-
-    public function setor()
-    {
-        return $this->belongsTo(Setor::class, 'id_setor', 'id');
+        return $this->belongsTo(Profile::class, 'id_profile', 'id')
+            ->select('profile.id', 'profile.name');
     }
 
 }

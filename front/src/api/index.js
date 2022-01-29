@@ -7,7 +7,6 @@ import Jwt from "./jwt";
 const Api = {
   init() {
     Vue.use(VueAxios, axios);
-    Vue.use(axios);
     Vue.axios.defaults.baseURL = process.env.VUE_APP_API_URL;
     this.setupHeaders();
     Vue.axios.interceptors.response.use(function(response) {

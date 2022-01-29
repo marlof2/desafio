@@ -28,12 +28,16 @@ $ composer install
 $ php artisan serve
   *Obs:Lembrando que deve rodar na porta 8000 por que está 
   definido no front, caso ao contrario va no .env do front e troca a porta
+  
+# Renomei o arquivo .env.exemple para .env
+$ De: desafio/back/.env.testing
+$ Para: desafio/back/.env
 
 # Faça a conexão do banco de dados de acordo com o .env do backend
 $ path: desafio/back/.env
 
 # Execulte o comando abaixo para rodas as migrations e as seeds
-$ php artisa migrate --seed
+$ php artisan migrate --seed
 
 ```
 ### Para roda os tests unitários rode esse comando 

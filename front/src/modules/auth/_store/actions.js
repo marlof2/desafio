@@ -13,11 +13,6 @@ const register = async (context, object) => {
   return await api.register(object);
 }
 
-const getUsers = async (context) => {
-  const result =  await api.getUsers();
-  context.commit("STORE_GET_USER", result)
-}
-
 const logout = async ({commit}) => {
   await api.logout()
   commit('STORE_ME_LOGOUT')
@@ -28,17 +23,11 @@ const updatePerfil = async (context, object) => {
   return result
   // context.commit("STORE_ME", result)
 }
-const excluir = async (context, id) => {
-  const result = await api.excluir(id)
-  return result
-}
 
 export default {
   me,
   logout,
   updatePerfil,
-  getUsers,
   login,
   register,
-  excluir
 }

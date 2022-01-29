@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\PerfilAcao;
+use App\Models\Action;
 use App\Models\User;
+use App\Models\UserAction;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -25,16 +26,25 @@ class UserSeed extends Seeder
             ],
             [
                 'id' => 1,
+                'id_profile' => 1,
                 'name' => $faker->name(),
-                'email' =>  $faker->unique()->safeEmail(),
-                'cpf' => '03296244581',
+                'email' => $faker->unique()->safeEmail(),
                 'login' => 'marlo',
                 'password' => Hash::make('teste'),
-                'ativo' => 1,
             ]
         );
 
         $usuarios->push($usuario);
+
+        $usuarios->each(function ($usuario) {
+            $actions = Action::get();
+            $actions->each(function ($action) use ($usuario) {
+                UserAction::create([
+                    'id_action' => $action->id,
+                    'id_user' => $usuario->id,
+                ]);
+            });
+        });
 
     }
 }
