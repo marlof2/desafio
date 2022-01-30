@@ -47,25 +47,31 @@ const routes = [
     component: () => import('@/layouts/Dashboard.vue'),
   },
   {
-    path: '/usuario',
+    path: '/logs',
+    name: 'log.index',
+    beforeEnter: guardMyroute,
+    component: () => import('@/modules/logs/_components/Inicio.vue'),
+  },
+  {
+    path: '/users',
     name: 'usuario.index',
     beforeEnter: guardMyroute,
     component: () => import('@/modules/user/_components/Inicio.vue'),
   },
   {
-    path: '/usuario/editar/:id',
+    path: '/users/editar/:id',
     name: 'usuario.editar',
     beforeEnter: guardMyroute,
     component: () => import('@/modules/user/_components/Form.vue'),
   },
   {
-    path: '/usuario/visualizar/:id',
+    path: '/users/visualizar/:id',
     name: 'usuario.visualizar',
     beforeEnter: guardMyroute,
     component: () => import('@/modules/user/_components/Form.vue'),
   },
   {
-    path: '/usuario/adicionar/',
+    path: '/users/adicionar/',
     name: 'usuario.adicionar',
     beforeEnter: guardMyroute,
     component: () => import('@/modules/user/_components/Form.vue'),
@@ -73,7 +79,7 @@ const routes = [
   {
     path: '/error-404',
     name: 'error-404',
-    component: () => import('@/views/Error.vue'),
+    // component: () => import('@/views/Error.vue'),
     meta: {
       layout: 'blank',
     },

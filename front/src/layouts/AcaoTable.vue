@@ -65,6 +65,7 @@ import {
 import {mapActions, mapGetters} from "vuex"
 import storeAuth from "@/modules/auth/_store"
 import Api from "@/api";
+
 export default {
   props: ['idUser'],
   data() {
@@ -100,11 +101,11 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Excluir'
-      }).then(async (result, response) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const response = await Api.delete(`http://127.0.0.1:8000/api${pathRoute}/delete`, id);
-            if (response.status == 200) {
+            const response = await Api.delete(`http://127.0.0.1:8000/api${pathRoute}/destroy`, id);
+            if (response.data.success) {
               this.$swal.fire(
                 'Excluido!',
                 'Usuario excluido com sucesso!',

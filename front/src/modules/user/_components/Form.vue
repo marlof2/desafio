@@ -31,7 +31,9 @@
                     dense
                     hide-details
                     :rules="[rules.required]"
-                  ></v-text-field>
+                    :disabled="disabledVisualizar()">
+                    >
+                  </v-text-field>
                   <span class="color-validate">{{ errors[0] }}</span>
                 </validation-provider>
               </v-col>
@@ -48,7 +50,9 @@
                     dense
                     hide-details
                     :rules="[rules.required]"
-                  ></v-text-field>
+                    :disabled="disabledVisualizar()">
+                    >
+                  </v-text-field>
                   <span class="color-validate">{{ errors[0] }}</span>
                 </validation-provider>
               </v-col>
@@ -67,7 +71,9 @@
                     dense
                     hide-details
                     :rules="[rules.required]"
-                  ></v-text-field>
+                    :disabled="disabledVisualizar()">
+                    >
+                  </v-text-field>
                   <span class="color-validate">{{ errors[0] }}</span>
                 </validation-provider>
               </v-col>
@@ -85,16 +91,12 @@
                     dense
                     hide-details
                     :rules="[rules.required]"
-                  ></v-text-field>
+                    :disabled="disabledVisualizar()">
+                    >
+                  </v-text-field>
                   <span class="color-validate">{{ errors[0] }}</span>
                 </validation-provider>
               </v-col>
-
-
-              <!--              <v-col cols="12">-->
-              <!--                <v-divider color=""></v-divider>-->
-              <!--              </v-col>-->
-
 
               <v-col class="mt-5" cols="12">
                 <h2 class="">Gengênciar Ações.</h2>
@@ -131,7 +133,9 @@
                         chips
                         hide-details
                         :rules="[rules.required]"
-                      ></v-select>
+                        :disabled="disabledVisualizar()">
+                        >
+                      </v-select>
                       <span class="color-validate">{{ errors[0] }}</span>
                     </validation-provider>
                   </v-col>
@@ -152,7 +156,9 @@
                         outlined
                         dense
                         hide-details
-                      ></v-select>
+                        :disabled="disabledVisualizar()">
+                        >
+                      </v-select>
                       <span class="color-validate">{{ errors[0] }}</span>
                     </validation-provider>
                   </v-col>
@@ -161,7 +167,9 @@
 
 
               <v-col cols="12">
-                <v-btn type="submit" color="primary">
+                <v-btn type="submit"
+                       color="primary"
+                       :disabled="disabledVisualizar()">
                   Salvar
                 </v-btn>
                 <v-btn
@@ -208,7 +216,6 @@ export default {
         email: null,
         id_profile: null,
         id_actions: [],
-
       },
       rules: {
         required: (value) => !!value
@@ -223,6 +230,9 @@ export default {
       action: '$_actions/getAllActions',
       user: '$_user/getUserById',
     }),
+    disabledVisualizar() {
+      return this.$route.name === 'usuario.visualizar'
+    },
     backToIndex() {
       return this.$router.push({name: 'usuario.index'})
     },
@@ -230,16 +240,25 @@ export default {
       try {
         if (this.$route.params.id != undefined) {
           this.form.id = this.$route.params.id
-          console.log(this.form)
-          // const response = await this.update(this.form)
-          if (response.status == 200) {
-            this.$store.dispatch('message', {
-              icon: 'success',
-              title: 'Alterado com Sucesso',
+          const response = await this.update(this.form)
+          if (response.success) {
+            const Toast = this.$swal.mixin({
+              toast: true,
+              position: 'top',
               showConfirmButton: false,
-              timer: '5000'
+              timer: 8000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+              }
             })
-            this.$router.push({name: 'setor.index'})
+
+            Toast.fire({
+              icon: 'success',
+              title: response.msg
+            })
+            this.$router.push({name: 'usuario.index'})
           }
         } else {
           const response = await this.save(this.form)

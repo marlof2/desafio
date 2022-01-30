@@ -47,7 +47,7 @@
           <span class="text--primary font-weight-semibold mb-n1">
             {{ getUser.name }}
           </span>
-          <small class="text--disabled text-capitalize">{{this.getPerfil(1)}}</small>
+          <small class="text--disabled text-capitalize">{{this.getPerfil(this.user.id_profile)}}</small>
         </div>
       </div>
 
@@ -124,21 +124,15 @@ export default {
       let perfil = ''
       switch (id_perfil) {
         case 1:
-          return perfil = 'Geral'
+          return perfil = 'Admin'
           break;
         case 2:
-          return perfil = 'Usuário'
-          break;
-        case 3:
-          return perfil = 'Representante'
-          break;
-        case 4:
-          return perfil = 'Gestor'
+          return perfil = 'Cliente'
           break;
       }
     },
     perfis(){
-      return this.$router.push({ name: 'pages-account-settings'})
+      return this.$router.push({ path: `users/editar/${this.user.id}`})
     }
   },
   computed: {

@@ -21,16 +21,10 @@ const getUserById = async id => {
   return result.data;
 };
 
-const excluir = async id => {
-  const result = await Api.delete(`/${route}/delete`, id);
-  return result.data;
-};
-
 
 export default {
   save,
   update,
-  excluir,
   getAllUsers,
   getUserById
 };

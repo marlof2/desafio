@@ -7,7 +7,7 @@
     <v-card shaped elevation="5">
       <v-card-title>Bem Vindo!</v-card-title>
       <v-card-text>
-        Sistema de Gerênciamento de Setor.
+        Sistema de Gerênciamento de Usuário.
       </v-card-text>
     </v-card>
   </v-col>

@@ -5,9 +5,8 @@
       lg="12"
       md="12"
     >
-      <h1 class="spacing">Consultar Usuários</h1>
+      <h1 class="spacing">Consultar Logs</h1>
     </v-col>
-
     <v-col
       cols="12"
       lg="12"
@@ -40,7 +39,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="1" md="1">
-                <v-btn small @click="getUsers()">
+                <v-btn small @click="indexLog()">
                   Pesquisar
                 </v-btn>
               </v-col>
@@ -90,7 +89,7 @@
 <script>
 import {mdiPlus, mdiMagnify} from '@mdi/js';
 import {mapActions, mapGetters} from 'vuex'
-import storeUser from "@/modules/user/_store"
+import storeLogs from "@/modules/logs/_store"
 import Acao from "../../../layouts/AcaoTable"
 
 export default {
@@ -121,18 +120,17 @@ export default {
           value: 'acao',
         },
         {text: 'Nome', value: 'name'},
-        {text: 'Perfil', value: 'profile_name'},
         {text: 'Login', value: 'login'},
-        {text: 'Email', value: 'email'},
+        {text: 'Data/Hora', value: 'data/hora'},
       ],
     }
   },
   methods: {
     ...mapActions({
-      getAllUsers: '$_user/getAllUsers',
+      index: '$_logs/index',
     }),
     async reloadUsers() {
-      await this.getUsers()
+      await this.indexLog()
     },
     adicionar() {
       return this.$router.push({name: 'usuario.adicionar'})
@@ -150,39 +148,39 @@ export default {
       }
       return params;
     },
-    async getUsers() {
+    async indexLog() {
       const params = this.getRequestParams(this.pesquisar, this.page + 1, this.per_page);
 
-      await this.getAllUsers(params)
-      const response = this.listAllUsers[0]
-      this.items = response.data
-      this.page = response.current_page
-      this.last_page = response.last_page
-      this.totalPages = response.total;
+      const response = await this.index(params)
+      // const response = this.listAllUsers[0]
+      this.items = response[0].data
+      this.page = response[0].current_page
+      this.last_page = response[0].last_page
+      this.totalPages = response[0].total;
       this.pesquisar = ''
     },
     handlePageChange(value) {
       this.page = value;
-      this.getUsers();
+      this.indexLog();
     },
     handlePageSizeChange(size) {
       this.per_page = size;
       this.page = 1;
-      this.getUsers();
+      this.indexLog();
     },
   },
   computed: {
     ...mapGetters({
-      listAllUsers: '$_user/listAllUsers',
+      // listAllUsers: '$_user/listAllUsers',
     }),
   },
   beforeCreate() {
-    const STORE_USER = '$_user';
-    if (!(STORE_USER in this.$store._modules.root._children))
-      this.$store.registerModule(STORE_USER, storeUser)
+    const STORE_LOGS = '$_logs';
+    if (!(STORE_LOGS in this.$store._modules.root._children))
+      this.$store.registerModule(STORE_LOGS, storeLogs)
   },
   async mounted() {
-    this.getUsers();
+    this.indexLog();
     // this.$route.query = {query:{page:this.page}}
 
   },

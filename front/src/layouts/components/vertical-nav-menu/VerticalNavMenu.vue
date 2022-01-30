@@ -53,8 +53,8 @@
         :to="{ name: 'usuario.index' }"
       ></nav-menu-link>
       <nav-menu-link
-        title="Meu Perfil"
-        :to="{ name: 'usuario.index' }"
+        title="Logs"
+        :to="{ name: 'log.index' }"
       ></nav-menu-link>
     </v-list>
     <a

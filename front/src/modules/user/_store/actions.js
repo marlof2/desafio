@@ -18,14 +18,9 @@ const getUserById = async (context, id) => {
   context.commit("STORE_USER_BY_ID", result)
 }
 
-const excluir = async (context, id) => {
-  return await api.excluir(id);
-}
-
 export default {
   save,
   update,
   getAllUsers,
   getUserById,
-  excluir
 }
