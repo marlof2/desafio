@@ -1,0 +1,7 @@
+Arquitetura Padrão MVC 
+Framework front end, Vue.js e back end laravel/api
+
+Arquivos/Class
+Controller : UserController, cria, edita, consulta, mostra e deleta os usuarios 
+Controller : AuthController, autentica, registro de usuario(pela parte do resgistre-se), desloga, cria os logs e recupera usuario
+Middleware: JWT
