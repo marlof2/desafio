@@ -1,10 +1,13 @@
 # Desafio
 
-### Pré-requisitos
+[//]: # (### Pré-requisitos)
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). Além disto é bom ter um editor para trabalhar com o
-código como [VSCode](https://code.visualstudio.com/)
+[//]: # ()
+[//]: # (Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:)
+
+[//]: # ([Git]&#40;https://git-scm.com&#41;, [Node.js]&#40;https://nodejs.org/en/&#41;. Além disto é bom ter um editor para trabalhar com o)
+
+[//]: # (código como [VSCode]&#40;https://code.visualstudio.com/&#41;)
 
 ### 🎲 Rodando o Back End (servidor)
 
