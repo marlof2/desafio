@@ -12,8 +12,12 @@ const updateUser = async body =>{
   return result.data;
 }
 
-const me = async body => {
-  const result = await Api.post(`/${route}/me`, body);
+const me = async () => {
+  const result = await Api.get(`/${route}/me`);
+  return result.data;
+};
+const userAuth = async () => {
+  const result = await Api.get(`/${route}/userAuth`);
   return result.data;
 };
 
@@ -24,7 +28,7 @@ const login = async body => {
 
 
 const logout = async () => {
-  const result = await Api.post(`${route}/logout`);
+  const result = await Api.get(`${route}/logout`);
   return result.data;
 };
 
@@ -32,6 +36,7 @@ const logout = async () => {
 export default {
   register,
   me,
+  userAuth,
   login,
   logout,
   updateUser

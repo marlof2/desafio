@@ -69,7 +69,7 @@ class UserController extends Controller
     public function show($id, User $user)
     {
         try {
-            $data = $user->with('userAction')->find($id);
+            $data = $user->with('profile', 'userAction')->find($id);
 
             return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {

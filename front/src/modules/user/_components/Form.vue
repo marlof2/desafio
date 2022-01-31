@@ -97,72 +97,73 @@
                   <span class="color-validate">{{ errors[0] }}</span>
                 </validation-provider>
               </v-col>
+              <div v-if="hide()">
+                <v-col class="mt-5" cols="12">
+                  <h2 class="">Gengênciar Ações.</h2>
+                  <v-divider class=""></v-divider>
+                </v-col>
+                <div class=" col-md-12">
+                  <v-row class="marginEu">
+                    <v-col>
+                      <h1 class="subtitle-1">Selecione as ações para gengênciar o
+                        acesso do
+                        usuário.</h1>
+                    </v-col>
+                  </v-row>
 
-              <v-col class="mt-5" cols="12">
-                <h2 class="">Gengênciar Ações.</h2>
-                <v-divider class=""></v-divider>
-              </v-col>
-              <div class=" col-md-12">
-                <v-row class="marginEu">
-                  <v-col>
-                    <h1 class="subtitle-1">Selecione as ações para gengênciar o
-                      acesso do
-                      usuário.</h1>
-                  </v-col>
-                </v-row>
-
-                <v-row
-                >
-
-                  <v-col
-                    cols="6"
-                    sm="6"
-                    md="6"
+                  <v-row
                   >
-                    <validation-provider rules="required" v-slot="{ errors }">
-                      <v-select
-                        v-model="form.id_actions"
-                        :items="getActions[0]"
-                        item-value="id"
-                        item-text="name"
-                        :menu-props="{ maxHeight: '400' }"
-                        label="Acões"
-                        multiple
-                        outlined
-                        dense
-                        chips
-                        hide-details
-                        :rules="[rules.required]"
-                        :disabled="disabledVisualizar()">
-                        >
-                      </v-select>
-                      <span class="color-validate">{{ errors[0] }}</span>
-                    </validation-provider>
-                  </v-col>
 
-                  <v-col
-                    cols="12"
-                    sm="6"
-                  >
-                    <validation-provider rules="required" v-slot="{ errors }">
-                      <v-select
-                        v-model="form.id_profile"
-                        :items="getProfile[0]"
-                        item-value="id"
-                        item-text="name"
-                        :menu-props="{ maxHeight: '400' }"
-                        label="Perfil"
-                        :rules="[rules.required]"
-                        outlined
-                        dense
-                        hide-details
-                        :disabled="disabledVisualizar()">
-                        >
-                      </v-select>
-                      <span class="color-validate">{{ errors[0] }}</span>
-                    </validation-provider>
-                  </v-col>
-                </v-row>
+                    <v-col
+                      cols="6"
+                      sm="6"
+                      md="6"
+                    >
+                      <validation-provider rules="required" v-slot="{ errors }">
+                        <v-select
+                          v-model="form.id_actions"
+                          :items="getActions[0]"
+                          item-value="id"
+                          item-text="name"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Acões"
+                          multiple
+                          outlined
+                          dense
+                          chips
+                          hide-details
+                          :rules="[rules.required]"
+                          :disabled="disabledVisualizar()">
+                          >
+                        </v-select>
+                        <span class="color-validate">{{ errors[0] }}</span>
+                      </validation-provider>
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      sm="6"
+                    >
+                      <validation-provider rules="required" v-slot="{ errors }">
+                        <v-select
+                          v-model="form.id_profile"
+                          :items="getProfile[0]"
+                          item-value="id"
+                          item-text="name"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Perfil"
+                          :rules="[rules.required]"
+                          outlined
+                          dense
+                          hide-details
+                          :disabled="disabledVisualizar()">
+                          >
+                        </v-select>
+                        <span class="color-validate">{{ errors[0] }}</span>
+                      </validation-provider>
+                    </v-col>
+                  </v-row>
+                </div>
               </div>
 
 
@@ -230,6 +231,13 @@ export default {
       action: '$_actions/getAllActions',
       user: '$_user/getUserById',
     }),
+    hide() {
+      if (this.getAuth[0].id_profile === 2) {
+        return false
+      } else {
+        return true
+      }
+    },
     disabledVisualizar() {
       return this.$route.name === 'usuario.visualizar'
     },
@@ -298,12 +306,14 @@ export default {
     if (this.$route.params.id != undefined) {
       await this.user(this.$route.params.id)
     }
+    // console.log(this.getAuth[0].id_profile)
   },
   computed: {
     ...mapGetters({
       listUserById: '$_user/listUserById',
       getProfile: '$_profile/listAllProfiles',
       getActions: '$_actions/listAllActions',
+      getAuth: '$_auth/getAuth',
     }),
   },
   beforeCreate() {

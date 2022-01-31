@@ -86,6 +86,13 @@ class AuthController extends Controller
         return response()->json(Auth::user());
     }
 
+    public function userAuth()
+    {
+        $id_logado = Auth::user()->getAuthIdentifier();
+        $user = User::with('profile', 'userAction')->where('id', $id_logado)->get();
+        return response()->json($user);
+    }
+
     /**
      * Log the user out (Invalidate the token).
      *

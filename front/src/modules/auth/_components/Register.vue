@@ -66,7 +66,7 @@
                 color="primary"
                 class="mt-6"
               >
-                Resgistrar
+                Criar Conta
               </v-btn>
             </v-form>
           </ValidationObserver>

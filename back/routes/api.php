@@ -31,9 +31,9 @@ Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.r
 Route::group(['middleware' => 'jwt'], function () {
 
     Route::prefix('auth')->group(function () {
-        Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
-        Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-        Route::post('/me', [AuthController::class, 'me'])->name('auth.me');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::get('/me', [AuthController::class, 'me'])->name('auth.me');
+        Route::get('/userAuth', [AuthController::class, 'userAuth'])->name('userAuth');
     });
 
     Route::apiResource('actions', ActionController::class)->only('index');

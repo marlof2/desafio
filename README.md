@@ -10,7 +10,7 @@ código como [VSCode](https://code.visualstudio.com/)
 
 ```bash
 # No disco local C crie uma pasta chamada desafio
-$ desafio
+$ dev
 
 # Clone este repositório dentro da pasta
 $ git clone <https://github.com/marlof2/desafio.git>
@@ -24,11 +24,6 @@ $ cd back
 # Instale as dependências
 $ composer install
 
-# Execute a aplicação em modo de desenvolvimento
-$ php artisan serve
-  *Obs:Lembrando que deve rodar na porta 8000 por que está 
-  definido no front, caso ao contrario va no .env do front e troca a porta
-  
 # Renomei o arquivo .env.exemple para .env
 $ De: desafio/back/.env.testing
 $ Para: desafio/back/.env
@@ -36,19 +31,33 @@ $ Para: desafio/back/.env
 # Faça a conexão do banco de dados de acordo com o .env do backend
 $ path: desafio/back/.env
 
+# Execute a aplicação em modo de desenvolvimento
+$ php artisan serve
+  *Obs:Lembrando que deve rodar na porta 8000 por que está 
+  definido no front, caso ao contrario va no .env do front e troca a porta
+
 # Execulte o comando abaixo para rodas as migrations e as seeds
 $ php artisan migrate --seed
 
 ```
-### Para roda os tests unitários rode esse comando 
-```bash
-$ php artisan test --group fluxo-adicionar
-$ php artisan test --group fluxo-alterar
-$ php artisan test --group fluxo-deletar
-$ Obs: Para os dados persistirem no banco comente
-  na linha 17 do arquivo desafio/back/tests/Feature/ClienteTest
-  o (DatabaseTransactions)
-```
+
+[//]: # (### Para roda os tests unitários rode esse comando )
+
+[//]: # (```bash)
+
+[//]: # ($ php artisan test --group fluxo-adicionar)
+
+[//]: # ($ php artisan test --group fluxo-alterar)
+
+[//]: # ($ php artisan test --group fluxo-deletar)
+
+[//]: # ($ Obs: Para os dados persistirem no banco comente)
+
+[//]: # (  na linha 17 do arquivo desafio/back/tests/Feature/ClienteTest)
+
+[//]: # (  o &#40;DatabaseTransactions&#41;)
+
+[//]: # (```)
 
 ### 🎲 Rodando o Front End
 

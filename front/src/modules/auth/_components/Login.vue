@@ -2,31 +2,6 @@
   <div class="auth-wrapper auth-v1">
     <div class="auth-inner">
       <v-card class="auth-card">
-        <!-- logo -->
-        <!--        <v-card-title class="d-flex align-center justify-center py-7">-->
-        <!--          <router-link-->
-        <!--            to="/"-->
-        <!--            class="d-flex align-center"-->
-        <!--          >-->
-        <!--            <v-img-->
-        <!--              :src="require('@/assets/images/logos/logo2.png')"-->
-        <!--              max-height="50px"-->
-        <!--              max-width="50px"-->
-        <!--              alt="logo"-->
-        <!--              contain-->
-        <!--              class="me-3 "-->
-        <!--            ></v-img>-->
-
-        <!--            <v-img-->
-        <!--              :src="require('@/assets/images/logos/1.png')"-->
-        <!--              max-height="100px"-->
-        <!--              max-width="100px"-->
-        <!--              alt="logo"-->
-        <!--              contain-->
-        <!--              class="me-3 "-->
-        <!--            ></v-img>-->
-        <!--          </router-link>-->
-        <!--        </v-card-title>-->
 
         <!-- title -->
         <v-card-text class="align-center justify-center ">
@@ -86,7 +61,6 @@
       <v-overlay :value="overlay">
         <v-progress-circular
           indeterminate
-          size="64"
           color="primary"
           :size="70"
           :width="7"

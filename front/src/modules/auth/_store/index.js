@@ -4,6 +4,7 @@ import getters from './getters';
 
 const state = {
   me: [],
+  user: [],
 };
 
 export default {

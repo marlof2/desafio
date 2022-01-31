@@ -52,10 +52,12 @@
         title="Usuarios"
         :to="{ name: 'usuario.index' }"
       ></nav-menu-link>
-      <nav-menu-link
-        title="Logs"
-        :to="{ name: 'log.index' }"
-      ></nav-menu-link>
+      <div v-if="!hideForClient()">
+        <nav-menu-link
+          title="Logs"
+          :to="{ name: 'log.index' }"
+        ></nav-menu-link>
+      </div>
     </v-list>
     <a
       href="https://themeselection.com/products/materio-vuetify-vuejs-admin-template"
@@ -82,6 +84,8 @@ import {
 import NavMenuSectionTitle from './components/NavMenuSectionTitle.vue'
 import NavMenuGroup from './components/NavMenuGroup.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
+import {mapActions, mapGetters} from "vuex";
+// import storeAuth from "@/modules/auth/_store";
 
 export default {
   components: {
@@ -95,7 +99,50 @@ export default {
       default: null,
     },
   },
-  setup() {
+  methods: {
+    ...mapActions({
+      userAuth: '$_auth/userAuth',
+      // me: '$_auth/me',
+    }),
+    profileClient() {
+      if (this.getAuth[0].id_profile == 2) {
+        return true
+      } else {
+        return false
+      }
+    },
+    actionView() {
+      const action = this.getAuth[0].user_action.filter(action => action.id_action == 4)
+      return action[0]['id_action']
+    },
+    actionEdit() {
+      const action = this.getAuth[0].user_action.filter(action => action.id_action == 2)
+      return action[0]['id_action']
+    },
+    hideForClient() {
+      if (this.profileClient()) {
+        if (this.actionView() == 4 && this.actionEdit() == 2) {
+          return true
+        }
+      } else {
+        return false
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getAuth: '$_auth/getAuth',
+    })
+  },
+  async mounted() {
+    await this.userAuth()
+    // console.log(this.getAuth[0])
+    // console.log(this.hideForClient())
+    // console.log(this.actionView())
+    // console.log(this.actionEdit())
+
+  },
+  data() {
     return {
       icons: {
         mdiHomeOutline,
@@ -126,12 +173,13 @@ export default {
 // ? Adjust this `translateX` value to keep logo in center when vertical nav menu is collapsed (Value depends on your logo)
 .app-logo {
   transition: all 0.18s ease-in-out;
+
   .v-navigation-drawer--mini-variant & {
     transform: translateX(-4px);
   }
 }
 
-@include theme(app-navigation-menu) using ($material) {
+@include theme(app-navigation-menu) using($material) {
   background-color: map-deep-get($material, 'background');
 }
 

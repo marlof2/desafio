@@ -17,7 +17,7 @@
         <v-card-text class="mt-3">
           <v-card-title>
             <v-row>
-              <v-col md="4" cols="12">
+              <v-col v-if="hide()" md="4" cols="12">
                 <v-btn
                   @click="adicionar()"
                   color="success">
@@ -131,6 +131,13 @@ export default {
     ...mapActions({
       getAllUsers: '$_user/getAllUsers',
     }),
+    hide() {
+      if (this.getAuth[0].id_profile === 2) {
+        return false
+      } else {
+        return true
+      }
+    },
     async reloadUsers() {
       await this.getUsers()
     },
@@ -174,6 +181,7 @@ export default {
   computed: {
     ...mapGetters({
       listAllUsers: '$_user/listAllUsers',
+      getAuth: '$_auth/getAuth',
     }),
   },
   beforeCreate() {
@@ -183,6 +191,7 @@ export default {
   },
   async mounted() {
     this.getUsers();
+    console.log(this.getAuth[0].id_profile)
     // this.$route.query = {query:{page:this.page}}
 
   },

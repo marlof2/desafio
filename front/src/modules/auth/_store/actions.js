@@ -5,6 +5,10 @@ const me = async ({commit}) => {
   const result = await api.me();
   commit("STORE_ME", result)
 }
+const userAuth = async ({commit}) => {
+  const result = await api.userAuth();
+  commit("STORE_AUTH", result)
+}
 const login = async (context, object) => {
   const result = await api.login(object);
   context.commit("STORE_ME", result)
@@ -26,6 +30,7 @@ const updatePerfil = async (context, object) => {
 
 export default {
   me,
+  userAuth,
   logout,
   updatePerfil,
   login,

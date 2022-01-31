@@ -12,13 +12,9 @@
         {{ icons.mdiMenu }}
       </v-icon>
     </template>
-
     <v-list>
-
-      <!--      <v-divider></v-divider>-->
-
       <!-- Profile -->
-      <v-list-item link>
+      <v-list-item link v-if="verifyUser() || ProfileAdmin()">
         <v-list-item-icon class="me-2">
           <v-icon color="info" size="22">
             {{ icons.mdiSync }}
@@ -28,7 +24,7 @@
           <v-list-item-title @click="editar(idUser)">Editar</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-divider></v-divider>
+      <v-divider v-if="hide() || verifyUser()"></v-divider>
       <!-- Settings -->
       <v-list-item link>
         <v-list-item-icon class="me-2">
@@ -40,8 +36,8 @@
           <v-list-item-title @click="visualizar(idUser)">Visualizar</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item link>
+      <v-divider v-if="hide()"></v-divider>
+      <v-list-item link v-if="hide()">
         <v-list-item-icon class="me-2">
           <v-icon color="error" size="22">
             {{ icons.mdiDelete }}
@@ -79,12 +75,25 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.idUser)
+    // console.log(this.getAuth[0])
   },
   methods: {
     ...mapActions({
       logout: '$_auth/logout',
     }),
+    ProfileAdmin(){
+    return this.getAuth[0].id_profile == 1
+    },
+    verifyUser(){
+    return this.getAuth[0].id == this.idUser
+    },
+    hide() {
+      if (this.getAuth[0].id_profile === 2) {
+        return false
+      } else {
+        return true
+      }
+    },
     editar(id) {
       return this.$router.push({path: this.$router.currentRoute.path + `/editar/${id}`})
     },
@@ -127,6 +136,7 @@ export default {
   computed: {
     ...mapGetters({
       user: '$_auth/me',
+      getAuth: '$_auth/getAuth',
     })
   },
   beforeCreate() {

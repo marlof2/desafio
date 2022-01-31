@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: '$_auth/me'
+      getUser: '$_auth/me',
     })
   },
   beforeCreate() {
