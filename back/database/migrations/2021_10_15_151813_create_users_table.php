@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('login');
             $table->string('name');
             $table->string('password');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamps();
 
             $table->foreign('id_profile')->references('id')->on('profile')->onDelete('cascade');

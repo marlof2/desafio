@@ -49,7 +49,7 @@
                 ></v-text-field>
                 <span class="mb-3 color-validate">{{ errors[0] }}</span>
               </validation-provider>
-              <validation-provider rules="required" v-slot="{ errors }">
+              <validation-provider rules="required|email" v-slot="{ errors }">
                 <v-text-field
                   v-model="form.email"
                   outlined
@@ -107,11 +107,15 @@ import {mapActions} from "vuex";
 import Jwt from "@/api/jwt";
 import storeAuth from "@/modules/auth/_store";
 import {ValidationProvider, extend, ValidationObserver} from 'vee-validate';
-import {required} from 'vee-validate/dist/rules';
+import {email, required} from 'vee-validate/dist/rules';
 
 extend('required', {
   ...required,
   message: 'Campo Obrigatório!',
+});
+extend('email', {
+  ...email,
+  message: 'Insira um e-mail valido!',
 });
 
 export default {
